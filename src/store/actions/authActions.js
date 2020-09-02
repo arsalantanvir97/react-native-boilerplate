@@ -1,40 +1,62 @@
-import {
-	SIGNUP_SUCCESS,
-	SIGNUP_ERROR,
-	SIGNOUT_SUCCESS,
-	LOGIN_SUCCESS,
-	LOGIN_ERROR,
-} from "../config/type";
 import services, { baseUrl } from "../config/fetchConfig";
 
-export const login = async (user,onSuccess,onError) => {
-	try{
-		const res = await services.Post('auth/login',user)
-		if(res.status == 200){
+
+export const toggleAuthActionCreator = (data) => ({
+	type: "toggleAuth",
+	payload: data,
+})
+
+export const login = async (user, onSuccess, onError) => {
+	try {
+		const res = await services.Post('auth/login', user)
+		if (res.status == 'success') {
 			onSuccess(res)
 		}
-		else{
+		else {
 			onError(res)
 		}
 	}
-	catch(e){
+	catch (e) {
 		onError(e)
-		console.log('error -->',e)
+		console.log('error -->', e)
 	}
 };
 
-export const signUp = async (newUser,onSuccess,onError) => {
-	try{
-		const res = await services.Post('users/',newUser)
-		if(res.status == 200){
+export const signUp = async (newUser, onSuccess, onError) => {
+	try {
+		const res = await services.Post('users/', newUser)
+		console.log('result ==>', res)
+		if (res.status == 'success') {
 			onSuccess(res)
 		}
-		else{
+		else {
 			onError(res)
 		}
 	}
-	catch(e){
+	catch (e) {
 		onError(e)
-		console.log('error -->',e)
+		console.log('error -->', e)
 	}
 };
+
+
+export const forgetPassword = async (email, onSuccess, onError) => {
+	try {
+		const res = await services.Post(`users/forgotPw?email=${email}`)
+		console.log('result ==>', res)
+		if (res.status == 'success') {
+			onSuccess(res)
+		}
+		else {
+			onError(res)
+		}
+	}
+	catch (e) {
+		onError(e)
+		console.log('error -->', e)
+	}
+}
+
+export const logout = (onSuccess) => {
+	onSuccess({})
+}

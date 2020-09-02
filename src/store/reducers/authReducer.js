@@ -7,47 +7,15 @@ import {
 } from "../config/type";
 
 const initState = {
-	authError: null,
-	auth: null,
-	token: null,
+	user: null
 };
 
 const auth = (state = initState, action) => {
 	switch (action.type) {
-		case LOGIN_ERROR:
+		case "toggleAuth":
 			return {
 				...state,
-				authError: action.response.result,
-			};
-
-		case LOGIN_SUCCESS:
-			return {
-				...state,
-				authError: null,
-				auth: action.response.result.getUser,
-				token: action.response.result.token,
-			};
-
-		case SIGNOUT_SUCCESS:
-			return {
-				...state,
-				auth: null,
-				authError: null,
-			};
-
-		case SIGNUP_ERROR:
-			// proper error message handling to be implemented
-			return {
-				...state,
-				auth: null,
-				authError: action.response.result,
-			};
-
-		case SIGNUP_SUCCESS:
-			return {
-				...state,
-				auth: action.response.result,
-				authError: null,
+				user: action.payload,
 			};
 
 		default:

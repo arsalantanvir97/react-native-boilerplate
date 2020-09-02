@@ -13,24 +13,30 @@ import {TextInput, HelperText} from 'react-native-paper';
 const CustomInput = ({
   label,
   value,
+  placeholder,
   onChange,
   isSecure = false,
   error = false,
   onBlur,
   errorText,
+  customStyles,
+  isNumber
 }) => {
+  console.log('props of input -->',onBlur)
   return (
     <>
       <TextInput
         label={label}
+        placeholder={placeholder}
         value={value}
         onChangeText={(text) => onChange({text, name: label})}
-        style={styles.input}
+        style={{...styles.input,...customStyles}}
         secureTextEntry={isSecure}
         error={error}
-        onBlur={(e) => onBlur && onBlur(label)}
+        onBlur={(e) => !!onBlur && (console.log('blur chala',onBlur),onBlur(label))}
+        keyboardType={isNumber && "number-pad"}
       />
-      <HelperText type="error" visible >{errorText}</HelperText>
+      <HelperText type={error ? "error" : "info"} visible >{errorText}</HelperText>
     </>
   );
 };

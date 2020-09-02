@@ -1,6 +1,12 @@
 import React, {useState, useContext} from 'react';
 import SigninView from './view';
-import {validateEmail} from '../../../utils';
+import {validateEmail, setStorageItem} from '../../../utils';
+import {
+  login,
+  toggleAuthActionCreator,
+} from '../../../store/actions/authActions';
+import {connect} from 'react-redux';
+import {onSnackbar} from '../../../store/actions/layoutActions';
 
 const Signin: () => React$Node = (props) => {
   const [email, setEmail] = useState('');
@@ -23,7 +29,7 @@ const Signin: () => React$Node = (props) => {
   };
 
   const onBlur = (name) => {
-    console.log('name in blur')
+    console.log('name in blur');
     if (name.toLowerCase() === 'email') {
       const res = validateEmail(email);
       if (!res) {
@@ -56,6 +62,44 @@ const Signin: () => React$Node = (props) => {
     props.navigation.navigate('ForgetPassword');
   };
 
+  const onSubmit = () => {
+    try {
+      if (
+        email.trim() &&
+        !emailError.error &&
+        password.trim() &&
+        !passwordError.error
+      ) {
+        setLoading(true);
+        const LOGIN_DATA = {
+          email,
+          password,
+        };
+
+        login(
+          LOGIN_DATA,
+          (res) => {
+            console.log('res of SIGNIN -->', res);
+            setStorageItem('Authorization', res.Authorization);
+            setStorageItem("UserID",res.public_id)
+            props.toggleAuth(res.user);
+            setLoading(false);
+          },
+          (err) => {
+            props.showAlert('Invaild Email or Password, please try again.');
+            console.log('err of SIGNIN -->', err);
+            setLoading(false);
+          },
+        );
+      } else {
+        props.showAlert('Please fill all fields with valid data.');
+      }
+    } catch (e) {
+      console.log('e in signin -->', e);
+      setLoading(false);
+    }
+  };
+
   const viewProps = {
     email,
     password,
@@ -68,9 +112,24 @@ const Signin: () => React$Node = (props) => {
     onBlur,
     emailError,
     passwordError,
+    onSubmit,
   };
 
   return <SigninView {...viewProps} />;
 };
 
-export default Signin;
+const mapStateToProps = (state) => {
+  return {
+    open: state.layoutReducer.snackbarState,
+    message: state.layoutReducer.snackbarMessage,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleAuth: (data) => dispatch(toggleAuthActionCreator(data)),
+    showAlert: (message) => dispatch(onSnackbar(message)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);

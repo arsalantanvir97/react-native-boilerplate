@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { handleSnackbarClose } from '../../store/actions/layoutActions';
+import theme from '../../../theme';
 
 const CustomSnackbar = ({handleClose,message,open}) => {
 
@@ -11,20 +12,19 @@ const CustomSnackbar = ({handleClose,message,open}) => {
         visible={open}
         onDismiss={handleClose}
         action={{
-          label: 'Undo',
+          label: 'Close',
           onPress: () => {
-            // Do something
+            handleClose()
           },
         }}>
-        {message ? message : ''}
+        <Text style={styles.text} >{message ? message : ''}</Text>
       </Snackbar>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
+  text: {
+    fontFamily: theme.font.regular
   },
 });
 

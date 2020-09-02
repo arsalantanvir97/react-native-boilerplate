@@ -11,4 +11,10 @@ export const onSnackbar = (message) => {
       payload: false,
     };
   };
+
+  export const onInitialDone = () => {
+    return {
+      type: "onInitialDone"
+    }
+  }
   

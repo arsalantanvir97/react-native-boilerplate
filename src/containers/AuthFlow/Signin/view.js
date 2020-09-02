@@ -11,7 +11,7 @@ const SigninView: () => React$Node = (props) => {
     buttonLabel: 'Login',
     clickText: "Don't have an account?",
     onAuthToggle: props.navigateToSignup,
-    onPress: props.onSignin,
+    onPress: props.onSubmit,
     page: 'Login',
     loading: props.loading,
   };

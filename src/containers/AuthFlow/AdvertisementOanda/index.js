@@ -7,7 +7,7 @@ const AdvertisementOanda: () => React$Node = (props) => {
   const viewProps = {
     ...props
   };
-  console.log("nav", props.navigation)
+  // console.log("nav", props.navigation)
 
   return <AdvertisementOandaView {...viewProps} />;
 };

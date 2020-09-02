@@ -10,6 +10,11 @@ export const validateFullName = (name) => {
   return regex.test(String(name).toLowerCase());
 };
 
+export const validateExpiry = (date) => {
+  const regex = /^(0[1-9]|1[0-2])\/([0-9]{4})$/;
+  return regex.test(String(date).toLowerCase());
+};
+
 export const getStorageItem = async (key) => {
   try {
     let item = await AsyncStorage.getItem(key);

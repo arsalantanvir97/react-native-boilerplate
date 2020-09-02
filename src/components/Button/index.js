@@ -22,8 +22,11 @@ const CustomButton = (props) => {
       style={{
         width: 286,
         borderRadius: 10,
-        backgroundColor: theme.color.primary,
+        // backgroundColor: theme.color.primary,
         ...props.style,
+      }}
+      labelStyle={{
+        ...props.labelStyle,
       }}>
       {props.label}
     </Button>

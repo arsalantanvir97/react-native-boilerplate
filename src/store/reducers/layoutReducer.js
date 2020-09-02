@@ -1,6 +1,7 @@
 const initState = {
     snackbarState: false,
     snackbarMessage: "",
+    initial: false
   };
   
   const LayoutReducer = (state = initState, action) => {
@@ -16,6 +17,11 @@ const initState = {
           ...state,
           snackbarState: action.payload,
         };
+      case "onInitialDone":
+        return {
+          ...state,
+          initial: true
+        }
       default:
         return state;
     }

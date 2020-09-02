@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import IntroSliderView from './view';
+import { connect } from 'react-redux';
+import { onInitialDone } from '../../../store/actions/layoutActions';
+import { setStorageItem } from '../../../utils';
 
 const IntroSlider = (props) => {
 
@@ -28,6 +31,11 @@ const IntroSlider = (props) => {
     },
   ])
 
+  useEffect(() => {
+    props.setInitial()
+    setStorageItem("Initial",true)
+  }, [])
+
   const viewProps = {
     index,
     sliders,
@@ -40,5 +48,11 @@ const IntroSlider = (props) => {
   );
 }
 
-export default IntroSlider
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setInitial: () => dispatch(onInitialDone()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(IntroSlider)
 
