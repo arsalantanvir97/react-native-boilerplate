@@ -55,10 +55,10 @@ const PrductCard = ({
 const ChooseProductView: () => React$Node = (props) => {
   return (
     <View style={styles.container}>
-      <CustomBackButtonHeader backFunction={props.navigateBack} title={"Please Choose a Product"} />
+      <CustomBackButtonHeader backFunction={props.navigateBack} title={"Olivier George says beat that"} />
       <View style={{ padding: 20, flex: 1 }}>
         <View style={styles.cardContainer}>
-          {props.cardDetails.map((item, index) => (
+          {/* {props.cardDetails.map((item, index) => (
             <PrductCard
               {...item}
               key={index}
@@ -75,7 +75,7 @@ const ChooseProductView: () => React$Node = (props) => {
           subscribed to a product and only when you have made a profit.Front
           Office is FREE. You will only be charged after your 14 day trial ends,
           if have subscribed to a product and only when you have made a profit.
-        </Text>
+        </Text> */}
           <Button
             label="Next"
             style={{ alignSelf: 'center' }}

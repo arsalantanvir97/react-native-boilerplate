@@ -15,16 +15,16 @@ const WelcomeView: () => React$Node = (props) => {
       <CustomSurface style={styles.cardContainer}>
         <View>
           <Text style={styles.welcomeHeading}>Welcome</Text>
-          <Text style={styles.paragraph}>
+          {/* <Text style={styles.paragraph}>
             we strongly recommend trading with a demo account or low risk trades
             at the beginning. Front Office is absolutely free for 14 days. A
             user is only charged after 14 days if they make a profit For more
             information see our Terms and Conditions.
-          </Text>
+          </Text> */}
         </View>
         <View style={styles.bottomActionWrapper}>
-          <Text style={styles.durationText}>{`${props.timerDay} DAYS ${props.timerHour}:${props.timerMinute}:${props.timerSecond.length !== 1 ? props.timerSecond : `0${props.timerSecond}`}`}</Text>
-          <Button label="Accept" onPress={props.onNext} />
+          {/* <Text style={styles.durationText}>{`${props.timerDay} DAYS ${props.timerHour}:${props.timerMinute}:${props.timerSecond.length !== 1 ? props.timerSecond : `0${props.timerSecond}`}`}</Text> */}
+          <Button label="Beat that" onPress={props.onNext} />
         </View>
       </CustomSurface>
     </View>

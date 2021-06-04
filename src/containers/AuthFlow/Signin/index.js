@@ -79,10 +79,12 @@ const Signin: () => React$Node = (props) => {
         login(
           LOGIN_DATA,
           (res) => {
-            console.log('res of SIGNIN -->', res);
-            setStorageItem('Authorization', res.Authorization);
-            setStorageItem("UserID",res.public_id)
-            props.toggleAuth(res.user);
+            console.log('res',res)
+            console.log('res of SIGNIN -->', res.data.user.userId);
+
+            // setStorageItem('Authorization', res.Authorization);
+            setStorageItem("UserID",res.data.user.userId)
+            props.toggleAuth(res.data.user);
             setLoading(false);
           },
           (err) => {

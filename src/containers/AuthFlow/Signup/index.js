@@ -89,6 +89,7 @@ const Signup: () => React$Node = (props) => {
   };
 
   const onSubmit = () => {
+    let type='PLAYER'
     try {
       if (
         firstName.trim() &&
@@ -107,10 +108,11 @@ const Signup: () => React$Node = (props) => {
         setLoading(true);
         const SIGNUP_DATA = {
           email,
-          first_name: firstName,
-          last_name: lastName,
+          // first_name: firstName,
+          // last_name: lastName,
           password,
-          retypePassword: password,
+          // retypePassword: password,
+          type
         };
 
         signUp(
