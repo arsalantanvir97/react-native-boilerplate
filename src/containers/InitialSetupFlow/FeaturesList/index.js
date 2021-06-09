@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+
 import FeatureListView from './view';
 import AutomatedIcon from '../../../assets/images/automations.png';
 import BrainIcon from '../../../assets/images/brain.png';

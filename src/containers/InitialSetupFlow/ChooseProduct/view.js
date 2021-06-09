@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,8 @@ import {
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
+import Video from 'react-native-video';
+
 import CustomSurface from '../../../components/Surface';
 import theme from '../../../../theme';
 import Button from '../../../components/Button';
@@ -53,6 +55,23 @@ const PrductCard = ({
 };
 
 const ChooseProductView: () => React$Node = (props) => {
+  let player
+  useEffect(()=>{
+console.log('player',player)
+  },[player])
+const onBuffer=()=>{
+  console.log('helen')
+} 
+const videoError=()=>{
+  console.log('errror')
+}
+const loadingHandler=()=>{
+  console.log('loading')
+}
+const endingHandler=()=>{
+  console.log('errors')
+}
+
   return (
     <View style={styles.container}>
       <CustomBackButtonHeader backFunction={props.navigateBack} title={"Olivier George says beat that"} />
@@ -76,18 +95,29 @@ const ChooseProductView: () => React$Node = (props) => {
           Office is FREE. You will only be charged after your 14 day trial ends,
           if have subscribed to a product and only when you have made a profit.
         </Text> */}
+        <Video source={{uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}   // Can be a URL or a local file.
+       style={{ width: 300, height: 300 }}
+       ref={(ref) => {
+         player = ref
+       }}                                      // Store reference
+       onBuffer={onBuffer}    
+       onLoad={loadingHandler}
+       onEnd={endingHandler}
+       controls={true}          // Callback when remote video is buffering
+       onError={videoError}               // Callback when video cannot be loaded
+       style={styles.backgroundVideo} />
           <Button
             label="Next"
             style={{ alignSelf: 'center' }}
             onPress={props.navigateToFeatureList}
           />
-          <Button
+          {/* <Button
             label="Skip"
             style={{ alignSelf: 'center' }}
             mode="text"
             labelStyle={{ color: 'black' }}
             onPress={props.navigateToFeatureList}
-          />
+          /> */}
         </View>
       </View>
     </View>
@@ -145,6 +175,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: theme.font.regular,
     color: theme.color.primary,
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   heading: {
     fontFamily: theme.font.bold,

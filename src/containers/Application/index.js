@@ -29,11 +29,11 @@ const Application = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none" initialRouteName="AuthFlow">
-        {!props.user ? (
+        {props.user ? (
           <Stack.Screen name="AuthFlow" component={AuthFlow} />
         ) : (
             <>
-              <Stack.Screen name="InitialFlow" component={InitialSetupFlow} />
+              {/* <Stack.Screen name="InitialFlow" component={InitialSetupFlow} /> */}
               <Stack.Screen name="MainFlow" component={MainFlow} />
             </>
           )}

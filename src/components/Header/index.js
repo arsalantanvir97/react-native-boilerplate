@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/core';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import { Avatar } from 'react-native-paper';
 
 const CustomDrawerButtonHeader = (props) => {
   const navigation = useNavigation();
@@ -13,7 +14,9 @@ const CustomDrawerButtonHeader = (props) => {
       <TouchableOpacity style={styles.drawerTrigger} onPress={() => navigation.openDrawer()}>
         <Icon name="bars" size={26} color="#000000" />
       </TouchableOpacity>
-      <Text style={styles.heading}>{props.title}</Text>
+      <Avatar.Image style={{marginRight:15,border: '4px solid #000000',  borderColor:'#78B733', borderWidth:1,}} size={24} source={require('../../assets/images/imagesss.png')} />
+
+      {/* <Text style={styles.heading}>{props.title}</Text> */}
     </View>
   )
 }
@@ -40,7 +43,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: theme.color.light,
     // backgroundColor: 'red',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent:'space-between'
   },
   drawerTrigger: {
     // backgroundColor: 'green',
