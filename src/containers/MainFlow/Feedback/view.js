@@ -178,7 +178,8 @@ marginTop:12,
           <Text style={styles.imagesheading1}>{item.challenge.toUpperCase()}</Text>
           <Text style={styles.dateheading}>{item.date.toUpperCase()}</Text>
           </View>
-          <View style={{display:'flex',justifyContent:'flex-end'}}>
+          <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
+            <Text style={{fontSize:13,color:'#fff'}}>{item.connections-5 + '+'}</Text>
           <Image source={item?.avatar} /* Use item to set the image source */
         key={index} /* Important to set a key for list items,
                        but it's wrong to use indexes as keys, see below */
@@ -188,10 +189,12 @@ marginTop:12,
           borderWidth:1,
           height:24,
           borderRadius:20,
+          marginLeft:10,
           // borderColor:'#d35647',
           resizeMode:'cover',
         }}
       />
+
               </View>
 
         </View>

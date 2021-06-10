@@ -4,6 +4,10 @@ import { ScrollView,InlineButton,StyleSheet, View, Text, Dimensions ,Image,SafeA
 import { Avatar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
+import FEAIcon from 'react-native-vector-icons/Feather';
+import ENTIcon from 'react-native-vector-icons/Entypo';
+
+
 
 import { WebView } from 'react-native-webview';
 import { ProgressBar, Colors } from 'react-native-paper';
@@ -70,7 +74,19 @@ club:'Burnley Football Club'
       <CustomDrawerButtonHeader title={'About'} />
       <ScrollView style={{backgroundColor:'white'}}>
       <View style={styles.backcol}>
+        <View style={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'flex-end',position:'absolute',top:'49%',left:'36%'}}>
+  
       <Avatar.Image style={styles.avatarpropert} size={115} source={require('../../../assets/images/imagesss.png')} />
+      <TouchableOpacity style={styles.iconboxx} onPress={() => props.navigation.navigate('editprofile')}>
+      <FEAIcon onPress={() => props.navigation.navigate('editprofile')}
+                name="edit-2"
+                size={20}
+
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+      </View>
       </View>
       <View style={{height:45,}}></View>
       <View style={{display:'flex',alignItems:'center'}}>
@@ -123,7 +139,18 @@ club:'Burnley Football Club'
       </View>
       <View style={{height:27}}></View>
 <View style={styles.videobox}>
+  <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
   <Text style={styles.videoinfo}>VIDEO INTRODUCTION</Text>
+  <TouchableOpacity style={styles.iconbox} onPress={() => props.navigation.navigate('editprofile')}>
+      <FEAIcon
+                name="edit-2"
+                size={20}
+
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+  </View>
   <View style={{
                       height: 180,
                       borderWidth: 0,
@@ -142,7 +169,18 @@ source={{ html: user.videourl.split('watch?v=')[1] === undefined ? `<html><meta 
 <View style={{height:27}}></View>
 
   <View style={styles.videobox}>
+  <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
   <Text style={styles.videoinfo}>OVERVIEW</Text>
+  <TouchableOpacity style={styles.iconbox} onPress={() => props.navigation.navigate('editprofile')}>
+      <FEAIcon
+                name="edit-2"
+                size={20}
+
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+  </View>
 <Text style={styles.overviewinfo}>Lorem Ipsum is simply dummy text of the
 printing and typesetting industry. Lorem Ipsum
 has been the industry's standard dummy text
@@ -159,10 +197,31 @@ including versions of Lorem Ipsum.publishing</Text>
 </View>
 <View style={{height:27}}></View>
 <View style={styles.videoboxes}>
+<View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+<Text style={styles.videoinfos}>Sports & Skills</Text>
+  <TouchableOpacity style={styles.iconbox} onPress={() => props.navigation.navigate('editprofile')}>
+      <ENTIcon
+                name="plus"
+                size={20}
 
-  <Text style={styles.videoinfos}>Sports & Skills</Text>
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+  </View>
   <View style={styles.footballbox}>
-    <Text style={{color:'#79AB42',fontSize:22}}>Football</Text>
+  <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}}>
+  <Text style={{color:'#79AB42',fontSize:22,marginRight:20}}>Football</Text>
+  <TouchableOpacity style={styles.iconbox} onPress={() => props.navigation.navigate('editprofile')}>
+      <FEAIcon
+                name="edit-2"
+                size={20}
+
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+  </View>
     <View style={{height:36}}></View>
     {user?.skills.map(skill=>(
       <>
@@ -187,7 +246,20 @@ including versions of Lorem Ipsum.publishing</Text>
 </View>
 <View style={{height:27}}></View>
 <View style={styles.videobox}>
-<Text style={styles.videoinfo}>Experience</Text>
+<View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+<Text style={styles.videoinfo}>EXPERIENCE</Text>
+  <TouchableOpacity style={styles.iconbox} onPress={() => props.navigation.navigate('editprofile')}>
+      <FEAIcon 
+                name="edit-2"
+                size={20}
+
+                  resizeMode="contain"
+                  style={{color:"#5F9D36"}}
+                />
+                </TouchableOpacity>
+  </View>
+
+
 <View style={{height:36}}></View>
 
 {user?.experience.map(exp=>(
@@ -220,11 +292,13 @@ const styles = StyleSheet.create({
     backgroundColor:'rgb(227,241,216)'
   },
   avatarpropert:{
-    position: 'absolute',
-    top:'50%',
-    left:'36%',
+    // position: 'absolute',
+    // top:'50%',
+    // left:'36%',
     borderColor:'#75BC46',
     borderWidth:1,
+
+    marginRight:35
     // transform: 'translate(-50%, -50%)',
   },
   username:{fontFamily: theme.font.bold,
@@ -245,6 +319,31 @@ const styles = StyleSheet.create({
     borderWidth:0.06,
     borderRadius:11
   },
+  iconbox:{
+    
+height:33,
+width:33,
+borderWidth:0.3,
+borderColor:'#000',
+borderRadius:40,
+display:'flex',
+alignItems:'center',
+justifyContent:'center',
+// marginRight:10
+  },
+  iconboxx:{
+    height:33,
+    width:33,
+    borderWidth:0.3,
+    borderColor:'#000',
+    borderRadius:40,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    // marginRight:10
+    zIndex:10000000
+  },
+
   footballbox:{
     marginHorizontal:15,padding:30,
     // shadowColor: "#000",

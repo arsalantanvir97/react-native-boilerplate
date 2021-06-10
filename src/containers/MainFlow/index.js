@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Policy from './Policy';
 import About from './About';
 import Feedback from './Feedback';
+import EditProfile from './EditProfile'
 import DrawerContent from '../../components/Drawer';
 
 
@@ -15,6 +16,7 @@ const MainFlow = (props) => {
         <Drawer.Navigator headerMode="none" drawerContent={props => <DrawerContent {...props} logout={() => props.navigation.navigate('AuthFlow')} />}>
             <Drawer.Screen name="feedback" component={Feedback} />
             <Drawer.Screen name="about" component={About} />
+            <Drawer.Screen name="editprofile" component={EditProfile} />
             <Drawer.Screen name="policy" component={Policy} />
         </Drawer.Navigator>
     )
