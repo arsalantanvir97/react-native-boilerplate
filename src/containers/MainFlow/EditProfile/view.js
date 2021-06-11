@@ -92,6 +92,10 @@ const EditProfileView: () => React$Node = (props) => {
   
     const [text, setText] = useState('');
     const [text2, setText2] = useState('+92 382 2660012');
+    const [text3, setText3] = useState('');
+    const [text4, setText4] = useState('');
+
+
 
 useEffect(()=>{
 console.log("showform1",showform1)
@@ -123,7 +127,7 @@ console.log("showform1",showform1)
   </View>
   </View>
   <View style={{height:19}}></View>
-  <ProgressBar style={{height:6,borderRadius:7,width:'90%'}} progress={0.2} color={'#fff'} />
+  <ProgressBar style={{height:6,borderRadius:7,width:'90%'}} progress={0.5} color={'#fff'} />
 
   </View>
   <View style={{paddingVertical:20}}>
@@ -243,9 +247,56 @@ theme={{ colors: { primary: 'grey',underlineColor:'transparent',}}}/>
 
   </View>
   ):(
-    <TouchableOpacity onPress={()=>setShowform1((showform) => !showform)} style={{display:'flex',alignItems:'center',justifyContent:'center',height:50,backgroundColor:'#8AB748',borderRadius:25,marginBottom:20}}>
+    <View style={styles.conatiner}>  
+  <View style={styles.basicinfobox}>
+    <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}}>
+        <View style={styles.iconbox} >
+<FEAIcon
+        name="file-text"
+        size={35}
+
+          resizeMode="contain"
+          style={{color:"#5F9D36"}}
+        />
+        </View>
+<View style={{display:'flex',flexDirection:'column'}}>
+<View style={{display:'flex',flexDirection:'row'}}>
+<Text style={{color:'#fff',fontSize:17}}>Step 2</Text>
+<Text style={{color:'#4E6E2C',fontSize:17}}> /2</Text>
+</View>
+<Text style={{color:'#fff',fontSize:19,fontWeight:'bold',maxWidth:258}}>VIDEO INTRODUCTION & OVERVIEW</Text>
+
+</View>
+</View>
+<View style={{height:19}}></View>
+<ProgressBar style={{height:6,borderRadius:7,width:'90%'}} progress={1} color={'#fff'} />
+
+</View>
+<View style={{height:85}}></View>
+<TextInput
+        style={{backgroundColor:'#fff',flex:1}}
+      label="Vido Introduction Url"
+      value={text3}
+      onChangeText={text => setText3(text)}
+mode='outlined'
+underlineColor='grey'
+theme={{ colors: { primary: 'grey',underlineColor:'transparent',}}}/>
+<View style={{height:25}}></View>
+<TextInput
+multiline={true}
+        style={{backgroundColor:'#fff',flex:1,height:120}}
+      label="Vido Introduction Url"
+      value={text4}
+      onChangeText={text => setText4(text)}
+mode='outlined'
+underlineColor='grey'
+theme={{ colors: { primary: 'grey',underlineColor:'transparent',}}}/>
+<View style={{height:85}}></View>
+
+    <TouchableOpacity onPress={()=>setShowform1((showform) => !showform)} style={{display:'flex',alignItems:'center',justifyContent:'center',height:50,backgroundColor:'#8AB748',borderRadius:25,}}>
     <Text style={{fontSize:19,color:'#fff',textAlign:'center'}}>Next</Text>
       </TouchableOpacity>
+      </View>
   )}
 </ScrollView>
     </>

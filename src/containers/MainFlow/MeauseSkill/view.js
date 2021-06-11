@@ -1,11 +1,14 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { ScrollView,InlineButton,StyleSheet, View, Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
+import { Modal, Portal, Text as Texts, Button, Provider } from 'react-native-paper';
 
 import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
+import { set } from 'react-native-reanimated';
 
 const { height, width } = Dimensions.get('window');
 
@@ -25,7 +28,10 @@ const IMAGES = {
 };
 
 
-const FeedbackView: () => React$Node = (props) => {
+const MeasureSkillView: () => React$Node = (props) => {
+  useEffect(()=>{
+    console.log('height',height)
+    },[height])
   const [data1, setData1] = useState([
     { id: '1', image: IMAGES.image1,name:'Measure a skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
     { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
@@ -60,185 +66,46 @@ skills:[{
           {
             name:'Heading'},
 ]
-  }
+
+}
+const [visible, setVisible] = useState(true)
+const showModal = () => setVisible(true);
+const hideModal = () => setVisible(false);
+const containerStyle = {};
+
+useFocusEffect(
+  React.useCallback(() => {
+setVisible(true)
+  }, [])
+);
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
-      <ScrollView style={{flex:1,backgroundColor:'white' }}>
+      <View style={{flex:1,backgroundColor:'grey' }}>
       {/* <CustomSurface style={styles.cardContainer}> */}
         {/* <View> */}
         
-          <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text>
-        
-  <View style={styles.imagewrapper}>
-  <Image style={styles.img1property} source={require('../../../assets/images/Main-banner.jpg')}/>
-  <View style={{display:'flex',flexDirection:'column',position:'absolute',top:'10%',left:'5%'}}>
-  <FAIcon
-                name="quote-left"
-                size={15}
+          {/* <Text style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text> */}
+          {/* <View style={{height:200}}></View> */}
+          <Provider>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+          <View style={{marginHorizontal:20,height:'auto',maxHeight:546.742857143,width:370,padding:20,borderRadius:10,backgroundColor:'#fff',display:'flex',}}>
+          <Texts style={{fontSize:16,fontWeight:'bold',color:'#78AB41'}}>MEASURE A SKILL</Texts>
+          <View style={{height:23}}></View>
+          <Texts style={{fontWeight:'bold',fontSize:15}}>Free Kick Instructions</Texts>
+          <View style={{height:18}}></View>
 
-                  resizeMode="contain"
-                  style={styles.avatarproperties}
-                />
-                <Text style={styles.img1heading}>{datas.heading}</Text>
-                <View style={{display:'flex',alignItems:'flex-end'}}>
-                  <FAIcon
-                name="quote-right"
-                size={15}
-
-                  resizeMode="contain"
-                  style={styles.avatar2properties2}
-                />
-</View></View>
-
-  </View>
-  {/* <View style={styles.slidesContiner}> */}
-
-  <View style={{alignItems:'center' }}>
-      {/* <Carousel
-        layout='default'
-        data={images}
-        sliderWidth={width}
-        itemWidth={width/3}
-        renderItem={({ item, index }) => (
-          <Image
-            key={index}
-            style={{ width: '100%', height: '100%',borderRadius:20 }}
-            resizeMode='contain'
-            source={item?.image}
-          />
-        )}
-      /> */}
-       <FlatList
-      style={{marginTop:25,marginLeft:13,}}
-    horizontal={true} 
-    showsHorizontalScrollIndicator={false}
-
-    data={data1}
-    renderItem={ ({ item, index }) => (
-      <>
-      <TouchableOpacity onPress= {
-                          ()=>{
-                             if(index===0){
-                               console.log('hellooooo')
-                             props.navigation.navigate('measureskill')}
-                           }
-                        }
-      style={{alignItems: 'center', justifyContent: 'center'}}>
-      <Image source={item?.image} /* Use item to set the image source */
-        key={index} /* Important to set a key for list items,
-                       but it's wrong to use indexes as keys, see below */
-        style={{
-          width:130,
-         
-          height:170,
-          borderRadius:8,
-          // borderColor:'#d35647',
-          resizeMode:'cover',
-          margin:8
-        }}
-      />
-      
-      <View style={index==0 ? styles.measureyourskillstyling : styles.imageheadingplacing }>
-      <Text style={index==0 ? styles.measureyourskillheading : styles.imagesheading}>{item.name.toUpperCase()}</Text>
-      
-      </View>
-        </TouchableOpacity>
-        
-
-  </>
-    )}
-  />
-  
-      <FlatList
-      style={{marginTop:15,borderColor:'#000',borderWidth:0.1  ,borderRadius:11,padding:14   }}
-      // boxWithShadow={{ shadowColor: 'pink',
-      // shadowOffset: { width: 0, height: 1 },
-      // shadowOpacity: 0.8,
-      // shadowRadius: 2,  
-      // elevation: 5}}
-    vertical={true} 
-    data={data2}
-    renderItem={ ({ item, index }) => (
-      <View  style={{alignItems: 'center', justifyContent: 'center', }}>
-        <TouchableOpacity  onPress= {
-                        ()=>{
-                          index===0 ? props.navigation.navigate('viewresult') : index===1?props.navigation.navigate('beatthat'):null
-
-                          //  if(index===0){
-                          //    console.log('hellooooo')
-                          //  props.navigation.navigate('viewresult')}
-                         }
-                      } >
-      <Image source={item?.image} /* Use item to set the image source */
-        key={index} /* Important to set a key for list items,
-                       but it's wrong to use indexes as keys, see below */
-                       onPress= {
-                        ()=>{
-                          // index===0 ? props.navigation.navigate('beatthat') : index===1?props.navigation.navigate('beatthat'):null
-                          //  if(index===0){
-                          //    console.log('hellooooo')
-                          //  props.navigation.navigate('viewresult')}
-                         }
-                      } 
-        style={{
-          width:325,
-          height:200,
-          borderWidth:2,
-          borderRadius:12,
-marginTop:12,
-          // borderColor:'#d35647',
-          resizeMode:'cover',
-          margin:8
-        }}
-      />
-      </TouchableOpacity>
-
-      <View style={{display:'flex',flexDirection:"row",justifyContent:'space-between',width:300,position:'absolute',top:'13%'}}>
-          <Text style={styles.imagesheading1}>{item.challenge.toUpperCase()}</Text>
-          <Image source={item?.avatar} /* Use item to set the image source */
-        key={index} /* Important to set a key for list items,
-                       but it's wrong to use indexes as keys, see below */
-        style={{
-          width:25,
-          borderColor:'#78B733',
-          borderWidth:1,
-          height:24,
-          borderRadius:20,
-          // borderColor:'#d35647',
-          resizeMode:'cover',
-        }}
-      />
-        </View>
-        <View style={{display:'flex',flexDirection:"row",justifyContent:'space-between',width:300,position:'absolute',bottom:'12%'}}>
-         <View style={{display:'flex',flexDirection:'column'}}>
-          <Text style={styles.imagesheading1}>{item.challenge.toUpperCase()}</Text>
-          <Text style={styles.dateheading}>{item.date.toUpperCase()}</Text>
+          <Texts>Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's  standard  dummy text ever</Texts>
+          <View style={{display:'flex',alignItems:'flex-end'}}>
+          <Button style={{width:90,borderRadius:14,marginTop: 30,backgroundColor:'#7BAC42',color:'#fff'}} onPress={hideModal}>
+      <Texts style={{color:'#fff'}}> Got it</Texts> 
+      </Button></View>
           </View>
-          <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
-            <Text style={{fontSize:13,color:'#fff'}}>{item.connections-5 + '+'}</Text>
-          <Image source={item?.avatar} /* Use item to set the image source */
-        key={index} /* Important to set a key for list items,
-                       but it's wrong to use indexes as keys, see below */
-        style={{
-          width:25,
-          borderColor:'#78B733',
-          borderWidth:1,
-          height:24,
-          borderRadius:20,
-          marginLeft:10,
-          // borderColor:'#d35647',
-          resizeMode:'cover',
-        }}
-      />
-
-              </View>
-
-        </View>
-      </View>
-    )}
-  />
-    </View>
+        </Modal>
+      </Portal>
+     
+    </Provider>
     
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
@@ -256,7 +123,7 @@ marginTop:12,
           {/* <Button label="Beat that" onPress={props.onNext} /> */}
         {/* </View> */}
       {/* </CustomSurface> */}
-    </ScrollView>
+    </View>
     </>
   );
 };
@@ -429,6 +296,6 @@ left:'14%'
 
 });
 
-export default FeedbackView;
+export default MeasureSkillView;
 
 
