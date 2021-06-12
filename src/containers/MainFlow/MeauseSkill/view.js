@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect,useRef, useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { ScrollView,InlineButton,StyleSheet, View, Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
@@ -7,8 +7,10 @@ import { Modal, Portal, Text as Texts, Button, Provider } from 'react-native-pap
 import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
-import FAIcon from 'react-native-vector-icons/FontAwesome';
+import FAIcon from 'react-native-vector-icons/Fontisto';
 import { set } from 'react-native-reanimated';
+import {RNCamera} from 'react-native-camera';
+
 
 const { height, width } = Dimensions.get('window');
 
@@ -27,7 +29,7 @@ const IMAGES = {
 
 };
 
-
+let urllls=''
 const MeasureSkillView: () => React$Node = (props) => {
   useEffect(()=>{
     console.log('height',height)
@@ -68,9 +70,24 @@ skills:[{
 ]
 
 }
+// const camera = useRef(null);
+
+// useEffect(()=>{
+// console.log('camera',camera)
+// },[camera])
+
 const [visible, setVisible] = useState(true)
+const [urls, setUrls] = useState('')
+
+const [videotoggle, setVideotoggle] = useState(true)
+const [emptytext,setEmptytext]=useState('')
+const [pausetext, setPausetext] = useState('Tap Anywhere to Pause')
+const [resumetext, setResumetext] = useState('Tap Anywhere to Resume')
+
+
 const showModal = () => setVisible(true);
 const hideModal = () => setVisible(false);
+
 const containerStyle = {};
 
 useFocusEffect(
@@ -78,10 +95,144 @@ useFocusEffect(
 setVisible(true)
   }, [])
 );
+const [processing,setProcessing]=useState(false)
+const [recording,setRecording]=useState(false)
+const startRecording=async(camera,status)=> {
+  console.log('status',status)
+  console.log('helo')
+  setVideotoggle(false)
+setRecording(true)  // default to mp4 for android as codec is not set
+if(urllls?.deviceOrientation){
+  console.log('videoresumed')
+  const options = { path:urllls.uri,base:64,maxDuration:60};
+  try {
+    const data = await camera.recordAsync(options);
+    urllls=data
+    console.log('uri1',urllls)
+    
+  } catch (error) {
+    console.log('error',error)
+  }
+
+
+}
+const data = await camera.recordAsync({base:64});
+urllls=data
+console.log('urllls',urllls,urllls?.deviceOrientation)
+setUrls(data)
+  console.log('uri2',data)
+}
+
+// const stopRecording =async () => {
+//   const ab= await camera.stopRecording();
+//   console.log('ab',ab)
+// };
+// let button = (
+//   <TouchableOpacity
+//     onPress={()=>startRecording(camera)}
+//     style={styles.capture}>
+//     {console.log('aaa')}
+//     <Text style={{fontSize: 14}}> RECORD </Text>
+//   </TouchableOpacity>
+// );
+// if (recording) {
+//   button = (
+//     <TouchableOpacity
+//       onPress={stopRecording}
+//       style={styles.capture}>
+//       <Text style={{fontSize: 14}}> STOP </Text>
+//     </TouchableOpacity>
+//   );
+// }
+// if (processing) {
+//   button = (
+//     <View style={styles.capture}>
+//       <ActivityIndicator animating size={18} />
+//     </View>
+//   );
+// }
+const recordingPause=async(camera,status)=>{
+  console.log('status',status)
+  console.log('pause')
+setVideotoggle(true)
+camera.stopRecording()
+
+console.log('yu')
+
+}
+const resumeRecording=async(camera)=>{
+  console.log('resume')
+  setVideotoggle(1)
+ const uu= await camera.resumePreview()
+ console.log('uu',uu)
+
+  }
+const PendingView = () => (
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: 'lightgreen',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Text>Waiting</Text>
+  </View>
+);
+useEffect(()=>{
+console.log('videotoggle',videotoggle)
+},[])
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
       <View style={{flex:1,backgroundColor:'grey' }}>
+      {/* <RNCamera
+ ref={ref => {
+  camera = ref;
+}}          
+          style={styles.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          permissionDialogTitle={'Permission to use camera'}
+          permissionDialogMessage={
+            'We need your permission to use your camera phone'
+          }
+        />
+        <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+          {button}
+        </View> */}
+        <RNCamera
+          style={styles.preview}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          androidCameraPermissionOptions={{
+            title: 'Permission to use camera',
+            message: 'We need your permission to use your camera',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+          androidRecordAudioPermissionOptions={{
+            title: 'Permission to use audio recording',
+            message: 'We need your permission to use your audio',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+        >
+          {({ camera, status, recordAudioPermissionStatus }) => {
+            if (status !== 'READY') return <PendingView />;
+            return (
+              <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={() =>{
+                  videotoggle?
+                  startRecording(camera,status):
+                  recordingPause(camera,status)
+                  }} style={styles.capture}>
+                  <Text style={{ fontSize: 14 }}>{videotoggle==0 ? emptytext :videotoggle==1 ? pausetext : videotoggle==2 ?resumetext: null}  </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        </RNCamera>
       {/* <CustomSurface style={styles.cardContainer}> */}
         {/* <View> */}
         
@@ -292,7 +443,21 @@ left:'14%'
     justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingBottom: 20
-  }
+  },  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  capture: {
+    flex: 0,
+    // backgroundColor: '#E94258',
+    height:130,
+    borderRadius: 70,
+    width:130,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20,
+  },
 
 });
 

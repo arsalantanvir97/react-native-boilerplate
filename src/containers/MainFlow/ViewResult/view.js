@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 
-import { ScrollView,InlineButton,StyleSheet, View, Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
+import { ScrollView,InlineButton,StyleSheet, View, Button,Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
 
 import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -11,7 +11,6 @@ const { height, width } = Dimensions.get('window');
 
 const vh = height / 100;
 const vw = width / 100;
-
 const IMAGES = {
   image1: require('../../../assets/images/black1.jpg'),
   image2: require('../../../assets/images/Main-banner.jpg'),
@@ -26,7 +25,10 @@ const IMAGES = {
 
 
 const ViewResultView: () => React$Node = (props) => {
+  const [timerr,setTimerr]=useState(0)
+
   const [data1, setData1] = useState([
+    
     { id: '1', image: IMAGES.image1,name:'Measure a skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
     { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
     // { id: '3', image: IMAGES.image3,name:'abcde' },
@@ -61,6 +63,27 @@ skills:[{
             name:'Heading'},
 ]
   }
+  
+let time=0
+let myinterval=-1
+const timerfunc=()=>{
+  console.log('hello')
+  if(myinterval===-1){
+    myinterval=setInterval(() => {
+      time++
+      setTimerr(time)
+    }, 1000);
+    console.log('myinterval',myinterval)
+  }
+}
+  const timerpausefunc=(timerfunc)=>{
+    console.log('bye')
+    clearInterval(myinterval)
+    myinterval=-1
+    timerfunc(myinterval)
+  }
+ 
+let abc='start'
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
@@ -70,8 +93,10 @@ skills:[{
         
           <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text>
         
-  
-    
+<Button title='start' onPress={timerfunc}></Button>
+<Button title='pause' onPress={timerpausefunc}></Button>
+
+    <Text>{timerr}</Text>
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
           {/* <Text style={styles.paragraph}>
