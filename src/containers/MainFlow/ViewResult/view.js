@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 
 import { ScrollView,InlineButton,StyleSheet, View, Button,Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
 
@@ -6,7 +6,7 @@ import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
-
+import Video from 'react-native-video'
 const { height, width } = Dimensions.get('window');
 
 const vh = height / 100;
@@ -26,6 +26,7 @@ const IMAGES = {
 
 const ViewResultView: () => React$Node = (props) => {
   const [timerr,setTimerr]=useState(0)
+  const [showthumbnail,setShowthumbnail]=useState(true)
 
   const [data1, setData1] = useState([
     
@@ -64,39 +65,54 @@ skills:[{
 ]
   }
   
-let time=0
-let myinterval=-1
-const timerfunc=()=>{
-  console.log('hello')
-  if(myinterval===-1){
-    myinterval=setInterval(() => {
-      time++
-      setTimerr(time)
-    }, 1000);
-    console.log('myinterval',myinterval)
-  }
+  let player
+  useEffect(()=>{
+console.log('player',player)
+  },[player])
+const onBuffer=()=>{
+  console.log('helen')
+} 
+const videoError=()=>{
+  console.log('errror')
 }
-  const timerpausefunc=(timerfunc)=>{
-    console.log('bye')
-    clearInterval(myinterval)
-    myinterval=-1
-    timerfunc(myinterval)
-  }
+const loadingHandler=()=>{
+  setShowthumbnail(false)
+  console.log('loading')
+}
+const endingHandler=()=>{
+  console.log('errors')
+}
  
-let abc='start'
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
-      <ScrollView style={{flex:1,backgroundColor:'white' }}>
+      <View style={{ flex: 1,paddingHorizontal:25,backgroundColor:'#fff' }}>
+        <View style={{height:40}}></View>
+      <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>REVIEW RESULTS</Text>
+      <View style={{height:30}}></View>
+
+
       {/* <CustomSurface style={styles.cardContainer}> */}
         {/* <View> */}
         
-          <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text>
-        
-<Button title='start' onPress={timerfunc}></Button>
-<Button title='pause' onPress={timerpausefunc}></Button>
+          {/* <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text> */}
+          <View style={{height:400,width:420}}>
+          {showthumbnail&& <Image resizeMode='contain' style={{height:"55%",width:"85%"}} source={require('../../../assets/images/pausebutton.jpg')}/>}
+          <Video source={{uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}   // Can be a URL or a local file.
+       style={{ width: 300, height: 300 }}
+       ref={(ref) => {
+         player = ref
+       }}                                      // Store reference
+       onBuffer={onBuffer}    
+       onLoad={loadingHandler}
+       onEnd={endingHandler}
+       controls={true}          // Callback when remote video is buffering
+       onError={videoError}               // Callback when video cannot be loaded
+       style={styles.backgroundVideo} />
+</View>
+<Text style={{fontSize:13,fontWeight:'bold',}}>FREE KICK</Text>
+<Text style={{fontSize:13,fontWeight:'bold'}}>FREE KICK</Text>
 
-    <Text>{timerr}</Text>
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
           {/* <Text style={styles.paragraph}>
@@ -113,7 +129,7 @@ let abc='start'
           {/* <Button label="Beat that" onPress={props.onNext} /> */}
         {/* </View> */}
       {/* </CustomSurface> */}
-    </ScrollView>
+    </View>
     </>
   );
 };
@@ -282,7 +298,15 @@ left:'14%'
     justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingBottom: 20
-  }
+  },backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height:300,
+    width:400
+  },
 
 });
 
