@@ -7,6 +7,8 @@ import theme from '../../../../theme';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import IONIcon from 'react-native-vector-icons/Ionicons';
+import FONIcon from 'react-native-vector-icons/Fontisto';
+import ANTIcon from 'react-native-vector-icons/AntDesign';
 
 
 
@@ -34,6 +36,7 @@ const IMAGES = {
 const ChallengeView: () => React$Node = (props) => {
   const [timerr,setTimerr]=useState(0)
   const [showthumbnail,setShowthumbnail]=useState(true)
+  const [toggleboxnumber,setToggleboxnumber]=useState(undefined)
 
   const [data1, setData1] = useState([
     
@@ -46,13 +49,13 @@ const ChallengeView: () => React$Node = (props) => {
     { id: '7', image: IMAGES.image7,name:'Heading' ,challenge:'beat that',date:'20/21/2020',connections:17,avatar:require('../../../assets/images/imagesss.png')}
   ]);
   const [data2, setData2] = useState([
-    { id: '1', image: IMAGES.image8,name:'Free Kick',challenge:'Your Result',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
+    { id: '1', image: IMAGES.image8,name:'Free Kick',challenge:'Your Result',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/xhaka.jpg'),player:'Granit Xhaka' },
+    { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/xhaka.jpg'),player:'Paul Pogba' },
     // { id: '3', image: IMAGES.image3,name:'abcde' },
-    { id: '4', image: IMAGES.image4,name:'Juggling',challenge:'your result',date:'20/21/2020',connections:44,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '5', image: IMAGES.image5,name:'Shooting',challenge:'beat that',date:'20/21/2020',connections:22,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '6', image: IMAGES.image6,name:'Passing',challenge:'your result',date:'20/21/2020',connections:9,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '7', image: IMAGES.image7,name:'Heading' ,challenge:'beat that',date:'20/21/2020',connections:17,avatar:require('../../../assets/images/imagesss.png')}
+    { id: '4', image: IMAGES.image4,name:'Juggling',challenge:'your result',date:'20/21/2020',connections:44,avatar:require('../../../assets/images/messi.jpeg'),player:'Leo Messi' },
+    { id: '5', image: IMAGES.image5,name:'Shooting',challenge:'beat that',date:'20/21/2020',connections:22,avatar:require('../../../assets/images/xhaka.jpg'),player:'Karim Benzema' },
+    { id: '6', image: IMAGES.image6,name:'Passing',challenge:'your result',date:'20/21/2020',connections:9,avatar:require('../../../assets/images/messi.jpeg'),player:'Gareth Bale' },
+    { id: '7', image: IMAGES.image7,name:'Heading' ,challenge:'beat that',date:'20/21/2020',connections:17,avatar:require('../../../assets/images/xhaka.jpg'),player:'Olivier Giroud'}
   ]);
 
   const datas={
@@ -83,7 +86,7 @@ skills:[{
             {
               name:'Heading',skill:0.1},
   ]
-
+const [togglebox, setTogglebox] = useState(false)
   let player
   useEffect(()=>{
 console.log('player',player)
@@ -101,7 +104,11 @@ const loadingHandler=()=>{
 const endingHandler=()=>{
   console.log('errors')
 }
- 
+ const setToggleboxes=(index)=>{
+setTogglebox(!togglebox)
+setToggleboxnumber(index)
+
+ }
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
@@ -109,78 +116,59 @@ const endingHandler=()=>{
         <View style={{height:20}}></View>
       <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>CHALLENGE</Text>
       <View style={{height:30}}></View>
-
-
-      {/* <CustomSurface style={styles.cardContainer}> */}
-        {/* <View> */}
-        
-          {/* <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text> */}
-          <View style={{height:300,width:360}}>
-          {showthumbnail&& <Image resizeMode='contain' style={{height:"55%",width:"85%"}} source={require('../../../assets/images/pausebutton.jpg')}/>}
-          <VideoPlayer source={{uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}   // Can be a URL or a local file.
-      //  style={{ width: 300, height: 300 }}
-       ref={(ref) => {
-         player = ref
-       }}                                      // Store reference
-       onBuffer={onBuffer}    
-       onLoad={loadingHandler}
-       onEnd={endingHandler}
-      //  controls={true}          // Callback when remote video is buffering
-       onError={videoError}               // Callback when video cannot be loaded
-       style={styles.backgroundVideo} />
-</View>
-<View style={{height:10}}></View>
-<Text style={{fontSize:14,fontWeight:'bold',}}>FREE KICK</Text>
-<View style={{height:4}}></View>
-
-<Text style={{fontSize:13,fontWeight:'normal',
-    }}>May 23,2020</Text>
-<View style={{borderBottomColor: '#00000029',
-  borderBottomWidth: 1,marginTop:20}}></View>
-  <Text style={{fontSize:14,fontWeight:'bold',marginTop:15}}>ANALYSIS</Text>
-  <FlatList
-      style={{marginTop:20}}
-    data={progress}
-    renderItem={ ({ item, index }) => (
-      <View style={{display:'flex',flexDirection:'column'}}>
-<Text style={{marginTop:7,fontSize:15}}>{item.name}</Text>
-           <ProgressBar style={{height:13,borderRadius:7,marginTop:6}} progress={item.skill} color={'#79AB42'} />
-      </View>
-    )}
-  />
-      {/* </View> */}
-          {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
-          {/* <Text style={styles.paragraph}>
-            we strongly recommend trading with a demo account or low risk trades
-            at the beginning. Front Office is absolutely free for 14 days. A
-            user is only charged after 14 days if they make a profit For more
-            information see our Terms and Conditions.
-          </Text> */}
-        {/* </View> */}
-        {/* <InlineButton onPress={() => { sliders?.length < 3 && _carousel.snapToNext()  }} label="Next" /> */}
-
-        {/* <View style={styles.bottomActionWrapper}> */}
-          {/* <Text style={styles.durationText}>{`${props.timerDay} DAYS ${props.timerHour}:${props.timerMinute}:${props.timerSecond.length !== 1 ? props.timerSecond : `0${props.timerSecond}`}`}</Text> */}
-          {/* <Button label="Beat that" onPress={props.onNext} /> */}
-        {/* </View> */}
-      {/* </CustomSurface> */}
-      <View style={{height:50}}></View>
-    </ScrollView>
-    <View style={{height:35}}>
-    <View style={{height:'100%',backgroundColor:'#79AB42'}}>
-        <TouchableOpacity onPress={()=>props.navigation.navigate('')} style={{display:'flex',backgroundColor:'#84B246',zIndex:100000,borderRadius:26,alignItems:'flex-end',position:'absolute',right:'5%',bottom:'10%'}}>
-            <View style={{display:'flex',alignItems:'center',justifyContent:'center',height:55,width:55,}}>
-    <IONIcon
-                name="send"
+<View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+    <Text style={{fontSize:15,fontWeight:'bold'}}>Beat That! Recipients</Text>
+    <FONIcon
+                name="checkbox-active"
                 size={30}
 
                   resizeMode="contain"
                   style={styles.avatarproperties}
                 />
-                </View>
-                </TouchableOpacity>
-                </View>
-                </View>
+</View>
+<FlatList
+      style={{marginTop:20}}
+    data={data2}
+    renderItem={ ({ item, index }) => (
+      <TouchableOpacity onPress={()=>setToggleboxes(index)} style={togglebox && toggleboxnumber===index ?styles.selectedbox:styles.unselectedbox}>
+          <View style={styles.imgcont}>
+<Image
+        source={item.avatar}
+        style={{height:'100%',width:'100%',borderRadius:40,}}
+      />     
+      </View>
+      <Text style={togglebox && toggleboxnumber===index ?styles.selectedcolor:styles.unselectedcolor}>{item.player}</Text>
+      {togglebox && toggleboxnumber===index?
+      <>
+      <View style={{display:'flex',justifyContent:'flex-end',position:'absolute',right:'5%',}}>
+          <View style={{height:30,width:27,backgroundColor:'#fff',borderRadius:25,display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <ANTIcon
+                name="check"
+                size={15}
+
+                  resizeMode="contain"
+                  style={styles.avatarproperties}
+                /></View>
+      </View>
+      </>
+      :null}
+      </TouchableOpacity>
+
+    )}
+  />
+  <View style={{height:40}}></View>
+  <View style={{display:'flex',alignItems:'flex-end',}}>
+  <View style={{height:40,width:40,}}>
+    <IONIcon
+                name="send"
+                size={30}
+
+                  resizeMode="contain"
+                  style={styles.avatarpropertiesss}
+                />
+                </View></View>
+    </ScrollView>
+    
     </>
   );
 };
@@ -217,6 +205,13 @@ const styles = StyleSheet.create({
   //   alignItems: 'center',
   //   elevation: 4
   // },
+  unselectedbox:{
+    paddingHorizontal:24,display:'flex',flexDirection:'row',alignItems:'center',height:70,backgroundColor:'#F6F6F6',marginTop:20,borderRadius:14
+  },
+  selectedbox:{
+    paddingHorizontal:24,display:'flex',flexDirection:'row',alignItems:'center',height:70,backgroundColor:'#79AB42',marginTop:20,borderRadius:14
+  },
+  
   imagewrapper:{
 height:130,
 marginHorizontal:21,
@@ -233,12 +228,29 @@ borderRadius:8  },
   headingContain: {
     marginBottom: 30,
   },
-  avatarproperties:{
+  avatarpropertiesss:{
     // position: 'absolute',
     // top:'15%',
     // left:'4%',
+  color:'#78AB41',
+  shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 12,
+},
+shadowOpacity: 0.58,
+shadowRadius: 16.00,
+zIndex:100000,
+elevation: 24,
+},
+selectedcolor:{
+    
   color:'#fff',
 },
+unselectedcolor:{
+    
+    color:'#000',
+  },
   avatar2properties2:{
 color:'#fff',
 marginRight:10,
@@ -270,6 +282,11 @@ marginTop:5
     fontWeight:'bold',
     fontSize:12,
     backgroundColor:"#78AB41"
+  },imgcont:{
+height:40,
+width:40,
+borderRadius:24,
+marginRight:14
   },
   dateheading:{
     color:'#AAA8A8',
