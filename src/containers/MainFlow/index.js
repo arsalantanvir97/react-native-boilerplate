@@ -9,6 +9,10 @@ import EditProfile from './EditProfile'
 import MeasureSkill from './MeauseSkill'
 import ViewResult from './ViewResult'
 import BeatThat from './BeatThat'
+import SendChallenge from './SendChallenge'
+import Challenge from './Challenge'
+
+
 import DrawerContent from '../../components/Drawer';
 
 
@@ -23,6 +27,8 @@ const MainFlow = (props) => {
             <Drawer.Screen name="beatthat" component={BeatThat} />
             <Drawer.Screen name="about" component={About} />
             <Drawer.Screen name="editprofile" component={EditProfile} />
+            <Drawer.Screen name="sendchallenge" component={SendChallenge} />
+            <Drawer.Screen name="challenge" component={Challenge} />
             <Drawer.Screen name="policy" component={Policy} />
         </Drawer.Navigator>
     )

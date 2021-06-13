@@ -1,17 +1,18 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 
-import { ScrollView,InlineButton,StyleSheet, View, Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
+import { ScrollView,InlineButton,StyleSheet, View, Button,Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
 
 import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
-import FAIcon from 'react-native-vector-icons/FontAwesome';
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import VideoPlayer from 'react-native-video-controls'
+import { ProgressBar, Colors } from 'react-native-paper';
 
 const { height, width } = Dimensions.get('window');
 
 const vh = height / 100;
 const vw = width / 100;
-
 const IMAGES = {
   image1: require('../../../assets/images/black1.jpg'),
   image2: require('../../../assets/images/Main-banner.jpg'),
@@ -26,7 +27,11 @@ const IMAGES = {
 
 
 const BeatThatView: () => React$Node = (props) => {
+  const [timerr,setTimerr]=useState(0)
+  const [showthumbnail,setShowthumbnail]=useState(true)
+
   const [data1, setData1] = useState([
+    
     { id: '1', image: IMAGES.image1,name:'Measure a skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
     { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
     // { id: '3', image: IMAGES.image3,name:'abcde' },
@@ -61,17 +66,84 @@ skills:[{
             name:'Heading'},
 ]
   }
+  const progress=[
+    {
+      name:'Stepover',skill:0.6},
+      {
+        name:'Juggling',skill:0.2},
+        {
+          name:'Shooting',skill:0.9},
+          {
+            name:'Passing',skill:0.3},
+            {
+              name:'Heading',skill:0.1},
+  ]
+
+  let player
+  useEffect(()=>{
+console.log('player',player)
+  },[player])
+const onBuffer=()=>{
+  console.log('helen')
+} 
+const videoError=()=>{
+  console.log('errror')
+}
+const loadingHandler=()=>{
+  setShowthumbnail(false)
+  console.log('loading')
+}
+const endingHandler=()=>{
+  console.log('errors')
+}
+ 
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
-      <ScrollView style={{flex:1,backgroundColor:'white' }}>
+      <ScrollView style={{ flex: 1,paddingHorizontal:25,backgroundColor:'#fff' }}>
+        <View style={{height:20}}></View>
+      <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>OLIVIER GEORGE SAYS BEAT THAT </Text>
+      <View style={{height:30}}></View>
+
+
       {/* <CustomSurface style={styles.cardContainer}> */}
         {/* <View> */}
         
-          <Text  style={styles.headingstyle}>HELLO, GEORGE FLOYD</Text>
-        
-  
-    
+          {/* <Text  style={styles.headingstyle}>HELLO, OLIVIER GEORGE</Text> */}
+          <View style={{height:300,width:360}}>
+          {showthumbnail&& <Image resizeMode='contain' style={{height:"55%",width:"85%"}} source={require('../../../assets/images/pausebutton.jpg')}/>}
+          <VideoPlayer source={{uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}   // Can be a URL or a local file.
+      //  style={{ width: 300, height: 300 }}
+       ref={(ref) => {
+         player = ref
+       }}                                      // Store reference
+       onBuffer={onBuffer}    
+       onLoad={loadingHandler}
+       onEnd={endingHandler}
+      //  controls={true}          // Callback when remote video is buffering
+       onError={videoError}               // Callback when video cannot be loaded
+       style={styles.backgroundVideo} />
+</View>
+<View style={{height:10}}></View>
+<Text style={{fontSize:14,fontWeight:'bold',}}>FREE KICK</Text>
+<View style={{height:4}}></View>
+
+<Text style={{fontSize:13,fontWeight:'normal',
+    }}>May 23,2020</Text>
+<View style={{borderBottomColor: '#00000029',
+  borderBottomWidth: 1,marginTop:20}}></View>
+  <Text style={{fontSize:14,fontWeight:'bold',marginTop:15}}>ANALYSIS</Text>
+  <FlatList
+      style={{marginTop:20}}
+    data={progress}
+    renderItem={ ({ item, index }) => (
+      <View style={{display:'flex',flexDirection:'column'}}>
+<Text style={{marginTop:7,fontSize:15}}>{item.name}</Text>
+           <ProgressBar style={{height:13,borderRadius:7,marginTop:6}} progress={item.skill} color={'#79AB42'} />
+      </View>
+    )}
+  />
+ <View style={{height:20}}></View>
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
           {/* <Text style={styles.paragraph}>
@@ -145,7 +217,8 @@ borderRadius:8  },
     // position: 'absolute',
     // top:'15%',
     // left:'4%',
-  color:'#fff'},
+  color:'#fff',
+marginRight:6},
   avatar2properties2:{
 color:'#fff',
 marginRight:10,
@@ -257,10 +330,16 @@ left:'14%'
     justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingBottom: 20
-  }
+  },backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height:'100%',
+    width:'100%'
+  },
 
 });
 
 export default BeatThatView;
-
-

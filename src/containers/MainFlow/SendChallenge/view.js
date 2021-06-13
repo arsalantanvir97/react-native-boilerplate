@@ -6,8 +6,13 @@ import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import IONIcon from 'react-native-vector-icons/Ionicons';
+
+
+
 import VideoPlayer from 'react-native-video-controls'
 import { ProgressBar, Colors } from 'react-native-paper';
+import SendChallenge from '.';
 
 const { height, width } = Dimensions.get('window');
 
@@ -26,7 +31,7 @@ const IMAGES = {
 };
 
 
-const ViewResultView: () => React$Node = (props) => {
+const SendChallengeView: () => React$Node = (props) => {
   const [timerr,setTimerr]=useState(0)
   const [showthumbnail,setShowthumbnail]=useState(true)
 
@@ -101,8 +106,8 @@ const endingHandler=()=>{
     <>
       <CustomDrawerButtonHeader title={'About'} />
       <ScrollView style={{ flex: 1,paddingHorizontal:25,backgroundColor:'#fff' }}>
-        <View style={{height:40}}></View>
-      <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>REVIEW RESULTS</Text>
+        <View style={{height:20}}></View>
+      <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>SEND A BEAT THAT CHALLENGE</Text>
       <View style={{height:30}}></View>
 
 
@@ -143,32 +148,6 @@ const endingHandler=()=>{
       </View>
     )}
   />
-  <View style={{display:'flex',alignItems:'center',justifyContent:'center',}}>
-<TouchableOpacity onPress={()=>props.navigation.navigate('sendchallenge')} style={{display:'flex',alignItems:'center',flexDirection:'row',justifyContent:'center',marginTop:35,width:200,height:50,backgroundColor:'#79AB42',borderRadius:25,marginBottom:20}}>
-
-  <FAIcon
-                name="flag-checkered"
-                size={15}
-
-                  resizeMode="contain"
-                  style={styles.avatarproperties}
-                />
-<Text style={{fontSize:19,color:'#fff',textAlign:'center',}}>BEAT THAT</Text>
-  </TouchableOpacity>
-  </View>
-  <View style={{borderBottomColor: '#00000029',
-  borderBottomWidth: 2,marginTop:23}}></View>
-  <View style={styles.imagewrapper}>
-  <Image style={styles.img1property} source={require('../../../assets/images/Main-banner.jpg')}/>
-  <View style={{display:'flex',flexDirection:'column',position:'absolute',top:'10%',left:'5%',maxWidth:'94%',maxHeight:190}}>
-  <Text style={{fontSize:16,color:'#fff',fontWeight:'bold'}}>Virtual Coach Comments</Text>
-  <View style={{borderBottomColor: '#fff',
-  borderBottomWidth: 1,marginTop:20}}></View>
-  <Text style={{marginTop:15,color:'#fff'}}>Lorem Ipsum is simply dummy text of the printing  and typesetting industry. Lorem Ipsum has been the  industry's standard dummy text ever Lorem Ipsum is  simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the  industry's standard dummy  text ever</Text>
-  </View>
-  </View>
-  <View style={{height:40}}></View>
-
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
           {/* <Text style={styles.paragraph}>
@@ -185,7 +164,23 @@ const endingHandler=()=>{
           {/* <Button label="Beat that" onPress={props.onNext} /> */}
         {/* </View> */}
       {/* </CustomSurface> */}
+      <View style={{height:50}}></View>
     </ScrollView>
+    <View style={{height:35}}>
+    <View style={{height:'100%',backgroundColor:'#79AB42'}}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('challenge')} style={{display:'flex',backgroundColor:'#84B246',zIndex:100000,borderRadius:26,alignItems:'flex-end',position:'absolute',right:'5%',bottom:'10%'}}>
+            <TouchableOpacity onPress={()=>props.navigation.navigate('challenge')} style={{display:'flex',alignItems:'center',justifyContent:'center',height:55,width:55,}}>
+    <IONIcon
+                name="send"
+                size={30}
+
+                  resizeMode="contain"
+                  style={styles.avatarproperties}
+                />
+                </TouchableOpacity>
+                </TouchableOpacity>
+                </View>
+                </View>
     </>
   );
 };
@@ -223,9 +218,9 @@ const styles = StyleSheet.create({
   //   elevation: 4
   // },
   imagewrapper:{
-height:220,
-width:'100%',
-marginTop:25
+height:130,
+marginHorizontal:21,
+marginTop:15
   },headingstyle:{
     color:'green',fontSize:18,
     marginLeft:21,
@@ -243,7 +238,7 @@ borderRadius:8  },
     // top:'15%',
     // left:'4%',
   color:'#fff',
-marginRight:6},
+},
   avatar2properties2:{
 color:'#fff',
 marginRight:10,
@@ -367,4 +362,4 @@ left:'14%'
 
 });
 
-export default ViewResultView;
+export default SendChallengeView;
