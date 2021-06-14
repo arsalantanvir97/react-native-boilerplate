@@ -44,7 +44,7 @@ const DrawerContent = (props) => {
                 />
 
               )}
-              label="Feedback"
+              label="Home"
               onPress={() => props.navigation.navigate('feedback')}
             />
             <DrawerItem
@@ -57,7 +57,7 @@ const DrawerContent = (props) => {
                   style={{width: size, color: '#A8CC54'}}
                 />
               )}
-              label="About"
+              label="Profile"
               onPress={() => props.navigation.navigate('about')}
             />
             <DrawerItem

@@ -30,7 +30,7 @@ const AboutView: () => React$Node = (props) => {
     age:24,
     phone:'03002178654',
     connections:500,
-    videourl:'https://www.youtube.com/watch?v=sFbw5I9gYPc',
+    videourl:'https://www.youtube.com/watch?v=JqqimfhgvkI',
     skills:[
       {
         name:'Dribbling',

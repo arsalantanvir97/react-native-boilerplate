@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { ScrollView,InlineButton,StyleSheet, View, Button,Text, Dimensions ,Image,SafeAreaView,TouchableOpacity,FlatList} from 'react-native';
 
@@ -36,7 +37,7 @@ const IMAGES = {
 const ChallengeView: () => React$Node = (props) => {
   const [timerr,setTimerr]=useState(0)
   const [showthumbnail,setShowthumbnail]=useState(true)
-  const [toggleboxnumber,setToggleboxnumber]=useState(undefined)
+  const [toggleboxnumber,setToggleboxnumber]=useState([])
 
   const [data1, setData1] = useState([
     
@@ -104,11 +105,27 @@ const loadingHandler=()=>{
 const endingHandler=()=>{
   console.log('errors')
 }
+useFocusEffect(
+  React.useCallback(() => {
+setToggleboxnumber([])  
+},[])
+);
  const setToggleboxes=(index)=>{
+   if(!toggleboxnumber.includes(index)){
 setTogglebox(!togglebox)
-setToggleboxnumber(index)
+toggleboxnumber.push(index) 
+console.log('jim')}
+else{
+setToggleboxnumber(toggleboxnumber.filter(xd=>(
+  xd!==index
+)))
+  setTogglebox(!togglebox)
 
- }
+}
+}
+useEffect(()=>{
+  console.log('player',toggleboxnumber)
+    },[toggleboxnumber])
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
@@ -117,28 +134,28 @@ setToggleboxnumber(index)
       <Text style={{fontSize:15,fontWeight:'bold',textAlign:'center'}}>CHALLENGE</Text>
       <View style={{height:30}}></View>
 <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-    <Text style={{fontSize:15,fontWeight:'bold'}}>Beat That! Recipients</Text>
+    <Text style={{fontSize:18,fontWeight:'bold'}}>Beat That! Recipients</Text>
     <FONIcon
                 name="checkbox-active"
                 size={30}
 
                   resizeMode="contain"
-                  style={styles.avatarproperties}
+                  style={{color:'#78AB41'}}
                 />
 </View>
 <FlatList
       style={{marginTop:20}}
     data={data2}
     renderItem={ ({ item, index }) => (
-      <TouchableOpacity onPress={()=>setToggleboxes(index)} style={togglebox && toggleboxnumber===index ?styles.selectedbox:styles.unselectedbox}>
+      <TouchableOpacity onPress={()=>setToggleboxes(index)} style={ toggleboxnumber.includes(index) ?styles.selectedbox:styles.unselectedbox}>
           <View style={styles.imgcont}>
 <Image
         source={item.avatar}
         style={{height:'100%',width:'100%',borderRadius:40,}}
       />     
       </View>
-      <Text style={togglebox && toggleboxnumber===index ?styles.selectedcolor:styles.unselectedcolor}>{item.player}</Text>
-      {togglebox && toggleboxnumber===index?
+      <Text style={toggleboxnumber.includes(index) ?styles.selectedcolor:styles.unselectedcolor}>{item.player}</Text>
+      {toggleboxnumber.includes(index) ?
       <>
       <View style={{display:'flex',justifyContent:'flex-end',position:'absolute',right:'5%',}}>
           <View style={{height:30,width:27,backgroundColor:'#fff',borderRadius:25,display:'flex',justifyContent:'center',alignItems:'center'}}>
