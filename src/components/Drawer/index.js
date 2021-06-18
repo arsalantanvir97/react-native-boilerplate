@@ -21,11 +21,12 @@ const DrawerContent = (props) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
+            <TouchableOpacity onPress={()=>navigation.navigate('about')}>
             <Avatar.Image
               style={styles.avatar}
-              size={25}
+              size={48}
               source={require('../../assets/images/imagesss.png')}
-            />
+            /></TouchableOpacity>
             <Text style={styles.username}>
               {/* {props.user && props.user.first_name}{' '}
               {props.user && props.user.last_name} */}

@@ -95,7 +95,7 @@ const endingHandler=()=>{
           Office is FREE. You will only be charged after your 14 day trial ends,
           if have subscribed to a product and only when you have made a profit.
         </Text> */}
-        <Video source={{uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}   // Can be a URL or a local file.
+        <Video source={{uri: "https://res.cloudinary.com/n4beel/video/upload/v1623929802/Y2Mate.is_-_10_Impossible_G[…]ver_Ever_Score_HD-5twveLmWhvI-480p-1623687430417_fnppoj"}}   // Can be a URL or a local file.
        style={{ width: 300, height: 300 }}
        ref={(ref) => {
          player = ref

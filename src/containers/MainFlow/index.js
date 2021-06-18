@@ -11,6 +11,7 @@ import ViewResult from './ViewResult'
 import BeatThat from './BeatThat'
 import SendChallenge from './SendChallenge'
 import Challenge from './Challenge'
+import RecordingDone from './RecordingDone'
 
 
 import DrawerContent from '../../components/Drawer';
@@ -30,6 +31,8 @@ const MainFlow = (props) => {
             <Drawer.Screen name="sendchallenge" component={SendChallenge} />
             <Drawer.Screen name="challenge" component={Challenge} />
             <Drawer.Screen name="policy" component={Policy} />
+            <Drawer.Screen name="recordingdone" component={RecordingDone} />
+
         </Drawer.Navigator>
     )
 }

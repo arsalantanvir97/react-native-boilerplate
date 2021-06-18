@@ -27,13 +27,13 @@ const IMAGES = {
 
 const FeedbackView: () => React$Node = (props) => {
   const [data1, setData1] = useState([
-    { id: '1', image: IMAGES.image1,name:'Measure a skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
-    { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
+    { id: '1', image: IMAGES.image1,name:'Measure  a  skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
+    { id: '2', image: IMAGES.image2,name:'Free Kick',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
     // { id: '3', image: IMAGES.image3,name:'abcde' },
-    { id: '4', image: IMAGES.image4,name:'Juggling',challenge:'your result',date:'20/21/2020',connections:44,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '5', image: IMAGES.image5,name:'Shooting',challenge:'beat that',date:'20/21/2020',connections:22,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '6', image: IMAGES.image6,name:'Passing',challenge:'your result',date:'20/21/2020',connections:9,avatar:require('../../../assets/images/imagesss.png') },
-    { id: '7', image: IMAGES.image7,name:'Heading' ,challenge:'beat that',date:'20/21/2020',connections:17,avatar:require('../../../assets/images/imagesss.png')}
+    { id: '4', image: IMAGES.image4,name:'Step Over',challenge:'your result',date:'20/21/2020',connections:44,avatar:require('../../../assets/images/imagesss.png') },
+    { id: '5', image: IMAGES.image5,name:'Weave',challenge:'beat that',date:'20/21/2020',connections:22,avatar:require('../../../assets/images/imagesss.png') },
+    { id: '6', image: IMAGES.image6,name:'Free Style',challenge:'your result',date:'20/21/2020',connections:9,avatar:require('../../../assets/images/imagesss.png') },
+    // { id: '7', image: IMAGES.image7,name:'Heading' ,challenge:'beat that',date:'20/21/2020',connections:17,avatar:require('../../../assets/images/imagesss.png')}
   ]);
   const [data2, setData2] = useState([
     { id: '1', image: IMAGES.image8,name:'Free Kick',challenge:'Your Result',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/imagesss.png') },
@@ -61,6 +61,19 @@ skills:[{
             name:'Heading'},
 ]
   }
+  let abc=data2.map((data)=>(
+    <Image source={data.avatar}  style={{
+      width:25,
+      borderColor:'#78B733',
+      borderWidth:1,
+      height:24,
+      borderRadius:20,
+      marginRight:-11,
+      // borderColor:'#d35647',
+      resizeMode:'cover',
+    }}/>
+    
+      ))
   return (
     <>
       <CustomDrawerButtonHeader title={'About'} />
@@ -119,7 +132,7 @@ skills:[{
       <>
       <TouchableOpacity onPress= {
                           ()=>{
-                             if(index===0){
+                             if(item.name=='Free Kick' || item.name=='Free Style'){
                                console.log('hellooooo')
                              props.navigation.navigate('measureskill')}
                            }
@@ -140,7 +153,7 @@ skills:[{
       />
       
       <View style={index==0 ? styles.measureyourskillstyling : styles.imageheadingplacing }>
-      <Text style={index==0 ? styles.measureyourskillheading : styles.imagesheading}>{item.name.toUpperCase()}</Text>
+      <Text style={styles.imagesheading}>{item.name.toUpperCase()}</Text>
       
       </View>
         </TouchableOpacity>
@@ -151,7 +164,7 @@ skills:[{
   />
   
       <FlatList
-      style={{marginTop:15,borderColor:'#000',borderWidth:0.1  ,borderRadius:11,padding:14   }}
+      style={{marginTop:15,padding:14   }}
       // boxWithShadow={{ shadowColor: 'pink',
       // shadowOffset: { width: 0, height: 1 },
       // shadowOpacity: 0.8,
@@ -195,8 +208,16 @@ marginTop:12,
       </TouchableOpacity>
 
       <View style={{display:'flex',flexDirection:"row",justifyContent:'space-between',width:300,position:'absolute',top:'13%'}}>
+        <View style={{display:'flex',flexDirection:'column'}}>
           <Text style={styles.imagesheading1}>{item.challenge.toUpperCase()}</Text>
-          <Image source={item?.avatar} /* Use item to set the image source */
+          {index==1&&
+          <View style={{marginTop:5,display:'flex',alignItems:'center',justifyContent:'center',backgroundColor:"#78AB41",width:35,height:19,borderRadius:17}}>
+          <Text style={styles.imagesheadingnew}>new</Text>
+          </View>
+
+}
+         </View>
+         <Image source={item?.avatar} /* Use item to set the image source */
         key={index} /* Important to set a key for list items,
                        but it's wrong to use indexes as keys, see below */
         style={{
@@ -217,20 +238,7 @@ marginTop:12,
           </View>
           <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-end',alignItems:'center'}}>
             <Text style={{fontSize:13,color:'#fff'}}>{item.connections-5 + '+'}</Text>
-          <Image source={item?.avatar} /* Use item to set the image source */
-        key={index} /* Important to set a key for list items,
-                       but it's wrong to use indexes as keys, see below */
-        style={{
-          width:25,
-          borderColor:'#78B733',
-          borderWidth:1,
-          height:24,
-          borderRadius:20,
-          marginLeft:10,
-          // borderColor:'#d35647',
-          resizeMode:'cover',
-        }}
-      />
+          {abc}
 
               </View>
 
@@ -324,15 +332,20 @@ marginTop:5
     color:'#fff',
     fontWeight:'bold',
     fontSize:16,
-    maxWidth:350
+    maxWidth:'96%'
     // position: 'absolute',
     // top:'15%',
     // left:'4%',
   },
+  imagesheadingnew:{
+    color:'#fff',
+    fontWeight:'bold',
+    fontSize:12,
+  },
   imagesheading:{
     color:'#fff',
     fontWeight:'bold',
-    fontSize:16,
+    fontSize:18,
     maxWidth:105
   },
   imagesheading1:{

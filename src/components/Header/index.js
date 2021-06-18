@@ -14,7 +14,9 @@ const CustomDrawerButtonHeader = (props) => {
       <TouchableOpacity style={styles.drawerTrigger} onPress={() => navigation.openDrawer()}>
         <Icon name="bars" size={26} color="#000000" />
       </TouchableOpacity>
-      <Avatar.Image style={{marginRight:15,border: '4px solid #000000',  borderColor:'#78B733', borderWidth:1,}} size={24} source={require('../../assets/images/imagesss.png')} />
+      <TouchableOpacity onPress={()=>navigation.navigate('about')}> 
+           <Avatar.Image  style={{marginRight:15,border: '4px solid #000000',  borderColor:'#78B733', borderWidth:1,}} size={24} source={require('../../assets/images/imagesss.png')} />
+           </TouchableOpacity>
 
       {/* <Text style={styles.heading}>{props.title}</Text> */}
     </View>

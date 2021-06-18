@@ -7,16 +7,24 @@ import { Modal, Portal, Text as Texts, Button, Provider } from 'react-native-pap
 import theme from '../../../../theme';
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CustomDrawerButtonHeader } from '../../../components/Header';
-import FAIcon from 'react-native-vector-icons/Fontisto';
+import ENTcon from 'react-native-vector-icons/Entypo';
+import IONcon from 'react-native-vector-icons/Ionicons';
+
+import MaterialICons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
 import { set } from 'react-native-reanimated';
 import {RNCamera} from 'react-native-camera';
+import { useIsFocused } from '@react-navigation/native';
+import Orientation from "react-native-orientation-locker";
+import { RectButton } from 'react-native-gesture-handler';
 
 
 const { height, width } = Dimensions.get('window');
 
 const vh = height / 100;
 const vw = width / 100;
-
+const vvw=width / 2;
 const IMAGES = {
   image1: require('../../../assets/images/black1.jpg'),
   image2: require('../../../assets/images/Main-banner.jpg'),
@@ -30,10 +38,23 @@ const IMAGES = {
 };
 
 let urllls=''
-const MeasureSkillView: () => React$Node = (props) => {
+const MeasureSkillView = (props) => {
+  const isFocused = useIsFocused();
+
   useEffect(()=>{
     console.log('height',height)
     },[height])
+
+    useEffect(() => {
+      props.navigation.addListener("focus", () => {
+        Orientation.lockToLandscape();
+      });
+  
+      props.navigation.addListener("blur", () => {
+        Orientation.lockToPortrait();
+      });
+    }, [props.navigation]);
+
   const [data1, setData1] = useState([
     { id: '1', image: IMAGES.image1,name:'Measure a skill',challenge:'Measure a skill',date:'20/21/2020',connections:40,avatar:require('../../../assets/images/black1.jpg') },
     { id: '2', image: IMAGES.image2,name:'Stepover',challenge:'beat that',date:'20/21/2020',connections:51,avatar:require('../../../assets/images/imagesss.png') },
@@ -76,19 +97,23 @@ skills:[{
 // console.log('camera',camera)
 // },[camera])
 
+const [camtype, setCamtype] = useState(RNCamera.Constants.Type)
+
+
 const [visible, setVisible] = useState(true)
 const [urls, setUrls] = useState('')
+const [cancelModal, setCancelModal] = useState(false)
 
 const [videotoggle, setVideotoggle] = useState(true)
+
 const [emptytext,setEmptytext]=useState('')
-const [pausetext, setPausetext] = useState('Tap Anywhere to Pause')
-const [resumetext, setResumetext] = useState('Tap Anywhere to Resume')
+
 
 
 const showModal = () => setVisible(true);
 const hideModal = () => setVisible(false);
 
-const containerStyle = {};
+const containerStyle = {flex: 1, justifyContent: "center", alignItems: "center"};
 
 useFocusEffect(
   React.useCallback(() => {
@@ -97,17 +122,30 @@ setVisible(true)
 );
 const [processing,setProcessing]=useState(false)
 const [recording,setRecording]=useState(false)
+const [paustexttoggle, setPaustexttoggle] = useState(true)
+const [resumetext, setResumetext] = useState('(Tap Anywhere to Resume)')
+const [pausetext, setPausetext] = useState('(Tap Anywhere to Pause)')
+const [recordingtext, setrecordingtext] = useState('RECORDING')
+const [pausedtext, setpausedtext] = useState('PAUSED')
+
+
+useEffect(() => {
+  console.log("recording",recording)
+}, [recording])
+
+
 const startRecording=async(camera,status)=> {
   console.log('status',status)
   console.log('helo')
   setVideotoggle(false)
 setRecording(true)  // default to mp4 for android as codec is not set
 if(urllls?.deviceOrientation){
-  console.log('videoresumed')
-  const options = { path:urllls.uri,base:64,maxDuration:60};
+  console.log('videoresumed',urllls.uri)
+  const options = { path:urllls.uri,base64:true,};
   try {
     const data = await camera.recordAsync(options);
     urllls=data
+    setUrls(data.uri + 'hello')
     console.log('uri1',urllls)
     
   } catch (error) {
@@ -116,13 +154,12 @@ if(urllls?.deviceOrientation){
 
 
 }
-const data = await camera.recordAsync({base:64});
+const data = await camera.recordAsync({base64:true,});
 urllls=data
 console.log('urllls',urllls,urllls?.deviceOrientation)
-setUrls(data)
+setUrls(data.uri)
   console.log('uri2',data)
 }
-
 // const stopRecording =async () => {
 //   const ab= await camera.stopRecording();
 //   console.log('ab',ab)
@@ -180,12 +217,70 @@ const PendingView = () => (
   </View>
 );
 useEffect(()=>{
-console.log('videotoggle',videotoggle)
-},[])
+console.log('urlsclg',RNCamera.Constants.Type)
+},[RNCamera.Constants.Type])
+
+
+
+const [cameratoggle, setCameratoggle] = useState(false)
+const [recbutton, setRecbutton] = useState(true)
+useEffect(()=>{
+  console.log('recbutton',recbutton)
+  },[recbutton])
+const flipCamera=()=>{
+  setCameratoggle(!cameratoggle)
+//   let backs
+//   let fronts
+//   if(camtype?.back===0){
+// backs=camtype.back=1
+// fronts=camtype.front=0
+//     setCamtype({back:backs,front:fronts})   
+//     console.log('1',camtype)
+//   }
+//   else{
+//     backs=camtype.back=0
+// fronts=camtype.front=1
+// setCamtype({back:backs,front:fronts})   
+// console.log('2',camtype)
+  
+}
+
+const [minsec, setMinsec] = useState(0)
+let recstatus=false
+const startTimer=()=>{
+let time=0
+    let myinterval=setInterval(() => {
+      console.log('interval', minsec, recstatus,paustexttoggle)
+      if(time<60 && recstatus && paustexttoggle){
+        time++
+        setMinsec(time)
+      }
+
+      if(time >= 60){
+        clearInterval(myinterval)
+        props.navigation.navigate('recordingdone')
+      }
+    }, 1000);
+}
+
+useEffect(()=>{
+console.log('minsec',minsec)
+},[minsec])
+useEffect(()=>{
+  console.log('recstatus',recstatus)
+  },[recstatus])
+  useEffect(()=>{
+    console.log('paustexttoggle',paustexttoggle)
+    },[paustexttoggle])
+  
+    const hidecanelModal=()=>{
+      setCancelModal(false)
+      props.navigation.navigate('feedback')
+    }
   return (
     <>
-      <CustomDrawerButtonHeader title={'About'} />
-      <View style={{flex:1,backgroundColor:'grey' }}>
+      {/* <CustomDrawerButtonHeader title={'About'} /> */}
+      <View style={{flex:1,position:'relative'}}>
       {/* <RNCamera
  ref={ref => {
   camera = ref;
@@ -201,9 +296,10 @@ console.log('videotoggle',videotoggle)
         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
           {button}
         </View> */}
-        <RNCamera
+       
+       {isFocused && <RNCamera
           style={styles.preview}
-          type={RNCamera.Constants.Type.back}
+          type={cameratoggle?camtype.front:camtype.back}
           flashMode={RNCamera.Constants.FlashMode.on}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
@@ -221,18 +317,79 @@ console.log('videotoggle',videotoggle)
           {({ camera, status, recordAudioPermissionStatus }) => {
             if (status !== 'READY') return <PendingView />;
             return (
-              <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                <TouchableOpacity onPress={() =>{
+              <View style={{ flex: 1 }}>
+                <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',}}>
+            <TouchableOpacity onPress={()=>setCancelModal(true)} style={{width:40}}>
+                <ENTcon
+                name="cross"
+                size={20}
+                  resizeMode="contain"
+                  style={{color:'#fff'}}
+                /></TouchableOpacity>
+                {recbutton ?(
+<View> 
+                 <Text style={{color:'#fff',fontSize:15,fontWeight:'bold'}}>RECORD 3 FREE KICKS</Text>
+                 </View>):(
+                 <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}}>
+                 <MaterialICons
+                name={paustexttoggle? 'record':'pause-circle'}
+                size={20}
+                  resizeMode="contain"
+                  // style={{color:'#E94258',marginRight:10}}
+                  style={paustexttoggle?styles.recicon:styles.pauseicon}
+                />
+<Text style={{fontSize:15,fontWeight:'bold',color:'#fff'}}>{paustexttoggle?recordingtext:pausedtext}</Text>
+                 </View>)}
+               <TouchableOpacity style={{width:40,}} onPress={()=>!recbutton && props.navigation.navigate('recordingdone')}>
+                <Text style={recbutton?styles.hideone:styles.showdone}>Done</Text>
+                </TouchableOpacity>
+                </View>
+                <View style={{display:'flex',flexDirection:'row',marginTop:70,justifyContent:'space-between'}}>
+              {recbutton?
+                <TouchableOpacity onPress={()=>{flipCamera()}} style={{width:40,display:'flex',flexDirection:'column',}}>
+                <IONcon
+                name="camera-reverse"
+                size={20}
+                  resizeMode="contain"
+                  style={{color:'#fff'}}
+                />
+                <Text style={{color:'#fff',fontSize:13,fontWeight:'bold'}}>Flip</Text>
+                </TouchableOpacity>:<View style={{width:40}}></View>}
+                {!recbutton&&
+                <TouchableOpacity onPress={()=>{setPaustexttoggle(!paustexttoggle);}}>
+                <Text style={{color:'#585858',fontSize:16}}>{paustexttoggle?pausetext:resumetext}</Text></TouchableOpacity>}
+                <View style={{width:40}}></View>
+                </View>
+                
+              {recbutton ? 
+              <View style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+                  <MaterialICons
+                  onPress={()=>{setRecbutton(false);recstatus=true;startTimer();}}
+                name="record"
+                size={180}
+                  resizeMode="contain"
+                  style={{color:'#E94258',}}
+                /></View>
+           :
+           <View style={{height:200,position:'relative'}}>
+           <Text style={{fontSize:14,color:'#fff',fontWeight:'bold',position:'absolute',bottom:30,left:'46%'}}>0:{minsec} / 1:00</Text></View>}
+                {/* <TouchableOpacity onPress={() =>{
                   videotoggle?
                   startRecording(camera,status):
                   recordingPause(camera,status)
                   }} style={styles.capture}>
-                  <Text style={{ fontSize: 14 }}>{videotoggle==0 ? emptytext :videotoggle==1 ? pausetext : videotoggle==2 ?resumetext: null}  </Text>
-                </TouchableOpacity>
+                    <Text style={{color:'#fff',fontSize:14}}>Tap anywhere to pause</Text> */}
+                    
+ {/* {urls.length>0&&
+        <Text style={{color:'red',fontSize:20,zIndex:10000,position:'absolute',bottom:'10%',left:'5%',}}>{urls}</Text>} */}
+                                 {/* </TouchableOpacity> */}
+
               </View>
+              
             );
           }}
-        </RNCamera>
+        </RNCamera>}
+       
       {/* <CustomSurface style={styles.cardContainer}> */}
         {/* <View> */}
         
@@ -254,10 +411,42 @@ console.log('videotoggle',videotoggle)
       </Button></View>
           </View>
         </Modal>
+       
+
       </Portal>
      
     </Provider>
-    
+    <Provider>
+    <Portal>
+
+    <Modal visible={cancelModal} onDismiss={hidecanelModal} contentContainerStyle={containerStyle}>
+          <View style={{marginHorizontal:20,height:'auto',position:'relative',maxHeight:546.742857143,width:370,padding:20,borderRadius:10,backgroundColor:'#fff',display:'flex',}}>
+            <View style={{position:'absolute',top:'-30%',left:'44%',backgroundColor:'#fff',borderRadius:40}}>
+          <MaterialICons
+                name="cancel"
+                size={60}
+                  resizeMode="contain"
+                  style={{color:'#F40000',}}
+                /></View>
+          <Texts style={{fontSize:16,fontWeight:'bold',color:'#000'}}>Cancel Recording</Texts>
+          <View style={{height:23}}></View>
+
+          <Texts>Are you sure you want to delete this recording?</Texts>
+          <View style={{height:28}}></View>
+
+          <View style={{display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
+          <Button style={{}} ><Texts style={{color:'#7BAC42',fontSize:12}}> Cancel</Texts> 
+
+      </Button>
+      <Button style={{width:90,borderRadius:14,backgroundColor:'#7BAC42',color:'#fff'}} onPress={hidecanelModal}>
+      <Texts style={{color:'#fff'}}>Yes</Texts> 
+      </Button>
+      </View>
+          </View>
+        </Modal>
+        </Portal>
+
+        </Provider>
       {/* </View> */}
           {/* <Text style={styles.welcomeHeading}>Welcome</Text> */}
           {/* <Text style={styles.paragraph}>
@@ -311,6 +500,12 @@ const styles = StyleSheet.create({
   //   alignItems: 'center',
   //   elevation: 4
   // },
+  showdone:{
+color:'#fff',
+  },
+  hideone:{
+    opacity: 0, height: 0
+  },
   imagewrapper:{
 height:130,
 marginHorizontal:21,
@@ -319,6 +514,12 @@ marginTop:15
     color:'green',fontSize:18,
     marginLeft:21,
     marginTop:20
+  },
+  recicon:{
+    color:'#E94258',marginRight:10
+  },
+  pauseicon:{
+    color:'#fff',marginRight:10
   },
   img1property:{
 height:"100%",
@@ -445,18 +646,17 @@ left:'14%'
     paddingBottom: 20
   },  preview: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    paddingVertical:22,
+    paddingHorizontal:24,
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
   },
   capture: {
-    flex: 0,
+    flex: 1,
     // backgroundColor: '#E94258',
-    height:130,
-    borderRadius: 70,
-    width:130,
-    paddingHorizontal: 20,
+    height:170,
+    width:170,
     alignSelf: 'center',
-    margin: 20,
   },
 
 });
